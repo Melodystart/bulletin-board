@@ -4,6 +4,7 @@ import mysql.connector
 from mysql.connector import pooling
 import boto3
 from urllib import parse
+import time
 
 mysql_user = get_key(".env", "user")
 mysql_password = get_key(".env", "password")
@@ -99,10 +100,13 @@ def create():
         if not message and not file:
             return error(result, "留言失敗：欄位皆為必填"), 400
 
-        s3.upload_fileobj(file, s3_bucket_name, file.filename)
+        filename = time.strftime(
+            "%Y%m%d%I%M%S", time.localtime()) + "_" + file.filename
+
+        s3.upload_fileobj(file, s3_bucket_name, filename)
 
         url = "https://d2qd0ay2cni770.cloudfront.net/" + \
-            parse.quote(file.filename)
+            parse.quote(filename)
 
         createMessage(message, url)
         result["ok"] = True
