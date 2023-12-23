@@ -22,9 +22,9 @@ app = Flask(
 )
 
 con = mysql.connector.connect(
-    host="database-bulletin.cajifi5ilsp4.us-west-2.rds.amazonaws.com",
+    host='finddoctor.collqfqpnilo.us-west-2.rds.amazonaws.com',
     user=mysql_user,
-    password=mysql_password,
+    password=mysql_password, auth_plugin='mysql_native_password'
 )
 
 cursor = con.cursor()
@@ -38,8 +38,8 @@ cursor.close()
 con.close()
 
 conPool = pooling.MySQLConnectionPool(
-    user=mysql_user, password=mysql_password, host="database-bulletin.cajifi5ilsp4.us-west-2.rds.amazonaws.com",
-    database="bulletin", pool_name="bullentinConPool", pool_size=10)
+    user=mysql_user, password=mysql_password, host='finddoctor.collqfqpnilo.us-west-2.rds.amazonaws.com',
+    database="bulletin", pool_name="bullentinConPool", pool_size=10, auth_plugin='mysql_native_password')
 
 
 def error(result, message):
@@ -79,6 +79,11 @@ def viewMessage(data):
     return result
 
 
+@app.route("/loaderio-013a04f67195d704a2d47435d3c12963/")
+def loadio():
+    return render_template("loadio.html")
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -105,7 +110,7 @@ def create():
 
         s3.upload_fileobj(file, s3_bucket_name, filename)
 
-        url = "https://d2qd0ay2cni770.cloudfront.net/" + \
+        url = "https://d3688zrms0ilwo.cloudfront.net/" + \
             parse.quote(filename)
 
         createMessage(message, url)
@@ -116,4 +121,4 @@ def create():
         return error(result, e.__class__.__name__+": "+str(e)), 500
 
 
-app.run(host="0.0.0.0", port=2052)
+app.run(host="0.0.0.0", port=8000)
