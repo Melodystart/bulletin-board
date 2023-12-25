@@ -9,6 +9,11 @@ https://live.abinitio.fun/
 
 [architecture]:./readme/Architecture.jpg
 
+### Loader.io Test
+Average response times 64ms by using Loader.io to run a test: 500 requests every second and last 20 seconds.
+![][loadio]
+
+[loadio]:./readme/loadio.jpg
 ### Demo
 ![][demo]
 
